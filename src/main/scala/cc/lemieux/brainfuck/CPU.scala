@@ -10,9 +10,10 @@ object CPU {
 
   case class IncrementValue(by: Int) extends Instruction
 
-  case class TestZeroAndJump(var jumpPC: Int = 0) extends Instruction
+  // var because there is a fixup when the ] is found.
+  case class TestZeroAndJump(var jumpPC: Int) extends Instruction
 
-  case class Goto(var jumpPC: Int = 0) extends Instruction
+  case class Goto(jumpPC: Int) extends Instruction
 
   case class ReadChar() extends Instruction
 
