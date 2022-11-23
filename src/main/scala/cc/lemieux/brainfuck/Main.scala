@@ -15,5 +15,5 @@ object Main {
         program.zipWithIndex.foreach { case (instruction, pc) => println(instruction.at(pc)) }
       CPU(ramSize).run(program)
     } else
-      throw new RuntimeException("Missing argument.")
+      throw new BrainfuckException("Invalid arguments.")
 }
