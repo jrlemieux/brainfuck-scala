@@ -50,7 +50,7 @@ case class Compiler() {
   def compile(brainfuckProgramSource: String) = {
     val program = compileInner(brainfuckProgramSource)
     if (stack.length != 0)
-      throw new RuntimeException("Invalid program.")
+      throw new BrainfuckException("Invalid program.")
     program
   }
 }
