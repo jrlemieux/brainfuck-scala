@@ -1,6 +1,6 @@
 package cc.lemieux.brainfuck
 
-import cc.lemieux.brainfuck.CPU.*
+import cc.lemieux.brainfuck.CPU._
 
 import scala.io.Source
 
