@@ -8,5 +8,5 @@ sbt clean assembly
 
 JAR=`find . -name '*.jar'`
 echo "JAR built: $JAR"
-echo "Run with: java -jar $JAR <source file name> <ram size>"
+echo "Run with: java -jar $JAR <source file name> <ram size> <list> <list>"
 

@@ -1,14 +1,23 @@
 package cc.lemieux.brainfuck
 
-import cc.lemieux.brainfuck.CPU._
+import cc.lemieux.brainfuck.CPU.*
 
-case class Compiler() {
+import scala.io.Source
 
-  val stack = scala.collection.mutable.Stack[TestZeroAndJump]()
-  var pc = 0
+case class Compiler(brainfuckProgramFileName: String) {
 
-  def generate(instruction: Instruction) = {
-    pc += 1;
+  val brainfuckProgramSource = Source.fromFile(brainfuckProgramFileName).getLines().mkString("\n")
+
+  private val stack = scala.collection.mutable.Stack[TestZeroAndJump]()
+  private var pc: Int = _
+
+  private def reset() = {
+    stack.clear()
+    pc = 0
+  }
+
+  private def generate(instruction: Instruction) = {
+    pc += 1
     IndexedSeq(instruction)
   }
 
@@ -23,13 +32,13 @@ case class Compiler() {
     else
       (program.head match {
         case '>' =>
-          generate(IncrementPtr(+1))
+          generate(UpdatePtr(+1))
         case '<' =>
-          generate(IncrementPtr(-1))
+          generate(UpdatePtr(-1))
         case '+' =>
-          generate(IncrementValue(+1))
+          generate(UpdateValue(+1))
         case '-' =>
-          generate(IncrementValue(-1))
+          generate(UpdateValue(-1))
         case '[' =>
           val testZeroAndJump = TestZeroAndJump(pc)
           stack.push(testZeroAndJump)
@@ -37,6 +46,7 @@ case class Compiler() {
         case ']' =>
           val i = stack.pop()
           val loopStartPC = i.jumpPC
+          // Fixup.
           i.jumpPC = pc + 1
           generate(Goto(loopStartPC))
         case ',' =>
@@ -47,10 +57,11 @@ case class Compiler() {
           IndexedSeq.empty
       }) ++ compileInner(program.tail)
 
-  def compile(brainfuckProgramSource: String) = {
-    val program = compileInner(brainfuckProgramSource)
+  def compile(): BrainfuckProgram = {
+    reset()
+    val instructions = compileInner(brainfuckProgramSource)
     if (stack.length != 0)
-      throw new BrainfuckException("Invalid program.")
-    program
+      throw new BrainfuckException("Invalid Brainfuck program.")
+    BrainfuckProgram(instructions)
   }
 }
