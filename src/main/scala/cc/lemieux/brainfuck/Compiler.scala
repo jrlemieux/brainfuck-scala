@@ -61,7 +61,7 @@ case class Compiler(brainfuckProgramFileName: String) {
     reset()
     val instructions = compileInner(brainfuckProgramSource)
     if (stack.length != 0)
-      throw new BrainfuckException("Invalid Brainfuck program.")
+      throw BrainfuckException("Invalid Brainfuck program.")
     BrainfuckProgram(instructions)
   }
 }

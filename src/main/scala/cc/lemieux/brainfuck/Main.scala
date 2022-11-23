@@ -28,7 +28,7 @@ object Main {
       if (args.length == 4)
         mainInner(args(0), args(1).toInt, args(2).toBoolean, args(3).toBoolean)
       else
-        throw new BrainfuckException("Invalid arguments.")
+        throw BrainfuckException("Invalid arguments.")
     catch {
       case t: Throwable =>
         System.err.println("\n\nFatal error: " + decodeThrowable(t))

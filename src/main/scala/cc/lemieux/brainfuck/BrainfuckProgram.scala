@@ -2,7 +2,7 @@ package cc.lemieux.brainfuck
 
 import cc.lemieux.brainfuck.CPU.Instruction
 
-case class BrainfuckProgram(instructions: IndexedSeq[Instruction]) {
+class BrainfuckProgram(val instructions: IndexedSeq[Instruction]) {
 
   def list(): Unit = {
     println()
